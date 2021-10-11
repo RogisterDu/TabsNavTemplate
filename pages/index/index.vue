@@ -10,6 +10,8 @@
 						</view>
 					</view>
 				</scroll-view>
+				<!-- 这里可以放置搜索按钮 begin 记得改动 -->
+				<!-- 这里可以放置搜索按钮 end -->
 			</view>
 		</view>
 
@@ -17,7 +19,10 @@
 			<swiper-item class="wisdomActivity" v-for="(tabitem, tabs_i) in tablist" :key="tabs_i">
 				<view>
 					<scroll-view scroll-y="true" :style="{ height: swiperheight + 'px' }" @scrolltolower="getMoreParty">
+						<!-- Tabs内容 -->
 						<text>这里是{{ tabitem.Name }}的内容</text>
+						<view v-if="tabitem.noContent">该页无内容</view>
+						<view v-else>内容如下</view>
 					</scroll-view>
 				</view>
 			</swiper-item>
@@ -29,6 +34,7 @@
 export default {
 	data() {
 		return {
+			swiperheight: 0,
 			tabIndex: 0,
 			tablist: [
 				{
@@ -38,7 +44,7 @@ export default {
 				},
 				{
 					Name: '标签2',
-					noContent: true,
+					noContent: false,
 					Content: []
 				},
 				{
@@ -57,8 +63,23 @@ export default {
 					Content: []
 				},
 				{
-					name: '标签6',
-					noContent: true, //Content是否有内容
+					Name: '标签6',
+					noContent: true,
+					Content: []
+				},
+				{
+					Name: '标签7',
+					noContent: true,
+					Content: []
+				},
+				{
+					Name: '标签8',
+					noContent: true,
+					Content: []
+				},
+				{
+					Name: '标签9',
+					noContent: true,
 					Content: []
 				}
 			]
@@ -104,8 +125,11 @@ export default {
 	align-items: center;
 }
 
-
-
+::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+	background-color: transparent;
+}
 
 .uni-swiper-tab {
 	white-space: nowrap;
@@ -116,7 +140,10 @@ export default {
 	font-family: PingFangSC-Regular, PingFang SC;
 	font-weight: 400;
 	color: #333333;
-	width: 640rpx;
+
+	/* 导航右侧放置搜素按钮注释 替换*/
+	width: 100%;
+	// width: 640rpx;
 }
 
 .swiper-tab {
