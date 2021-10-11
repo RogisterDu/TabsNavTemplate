@@ -1,0 +1,2 @@
+# TabsNavTemplate
+使用Uniapp Swiper+ScrollView写的Tabs导航条组件 通过setSwiperHeight动态调整Swiper以及ScrollView高度
