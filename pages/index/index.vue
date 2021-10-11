@@ -18,7 +18,7 @@
 		<swiper :current="tabIndex" :style="{ height: swiperheight + 'px' }" @change="swiperChange">
 			<swiper-item class="wisdomActivity" v-for="(tabitem, tabs_i) in tablist" :key="tabs_i">
 				<view>
-					<scroll-view scroll-y="true" :style="{ height: swiperheight + 'px' }" @scrolltolower="getMoreParty">
+					<scroll-view scroll-y="true" :style="{ height: swiperheight + 'px' }" @scrolltolower="getMore">
 						<!-- Tabs内容 -->
 						<text>这里是{{ tabitem.Name }}的内容</text>
 						<view v-if="tabitem.noContent">该页无内容</view>
@@ -88,6 +88,10 @@ export default {
 	onLoad() {
 		this.setSwiperHeight();
 	},
+	onReady() {
+		// 初始化
+		// this.getContentList(false);
+	},
 	methods: {
 		tabtap(index) {
 			this.tabIndex = index;
@@ -106,6 +110,33 @@ export default {
 					}
 				})
 				.exec();
+		},
+		getMore() {
+			// 下拉加载更多
+			// this.getContentList(true);
+		},
+		getContentList(isconcat) {
+			//isconcat True下拉加载更多 false 刷新
+			let offset = 0;
+			let that = this;
+			if (isconcat) {
+				offset = that.tablist[that.tabIndex].Content;
+			}
+			// 假象接口  offset 10为获取内容长度
+			GetContent(offset, 10).then(res => {
+				let TmpList = that.tab;
+				if (res.Success) {
+					if (res.Data == null) {
+						res.Data == {};
+					}
+					if (isconcat) {
+						TmpList = TmpList.concat(res.Data);
+					} else {
+						TmpList = res.Data;
+					}
+					that.tablist[that.tabIndex].Content = TmpList;
+				}
+			});
 		}
 	}
 };
